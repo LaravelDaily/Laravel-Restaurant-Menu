@@ -62,4 +62,11 @@ class Meal extends Model implements HasMedia
 
         return $file;
     }
+
+    public function saveQuietly()
+    {
+        return static::withoutEvents(function() {
+            return $this->save();
+        });
+    }
 }
