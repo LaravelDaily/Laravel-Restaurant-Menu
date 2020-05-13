@@ -9,6 +9,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesController extends Controller
@@ -69,6 +70,24 @@ class CategoriesController extends Controller
     public function massDestroy(MassDestroyCategoryRequest $request)
     {
         Category::whereIn('id', request('ids'))->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+        foreach ($request->ids as $index => $id) {
+            DB::table('categories')
+                ->where('id', $id)
+                ->update([
+                    'position' => $index + 1
+                ]);
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

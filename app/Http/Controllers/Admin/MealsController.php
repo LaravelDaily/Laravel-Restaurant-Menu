@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateMealRequest;
 use App\Meal;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,9 +23,11 @@ class MealsController extends Controller
     {
         abort_if(Gate::denies('meal_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $meals = Meal::all();
+        $categories = Category::with('meals')
+            ->orderBy('position', 'asc')
+            ->get();
 
-        return view('admin.meals.index', compact('meals'));
+        return view('admin.meals.index', compact('categories'));
     }
 
     public function create()
@@ -112,5 +115,29 @@ class MealsController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+    }
+
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'ids'         => 'required|array',
+            'ids.*'       => 'integer',
+            'category_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        foreach ($request->ids as $index => $id) {
+            DB::table('meals')
+                ->where('id', $id)
+                ->update([
+                    'position' => $index + 1,
+                    'category_id' => $request->category_id
+                ]);
+        }
+
+        $positions = Category::find($request->category_id)
+            ->meals()
+            ->pluck('position', 'id');
+
+        return response(compact('positions'), Response::HTTP_OK);
     }
 }

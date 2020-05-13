@@ -28,12 +28,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
+    Route::post('categories/reorder', 'CategoriesController@reorder')->name('categories.reorder');
     Route::resource('categories', 'CategoriesController');
 
     // Meals
     Route::delete('meals/destroy', 'MealsController@massDestroy')->name('meals.massDestroy');
     Route::post('meals/media', 'MealsController@storeMedia')->name('meals.storeMedia');
     Route::post('meals/ckmedia', 'MealsController@storeCKEditorImages')->name('meals.storeCKEditorImages');
+    Route::post('meals/reorder', 'MealsController@reorder')->name('meals.reorder');
     Route::resource('meals', 'MealsController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
