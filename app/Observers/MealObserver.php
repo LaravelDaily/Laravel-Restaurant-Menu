@@ -14,7 +14,7 @@ class MealObserver
      */
     public function creating(Meal $meal)
     {
-        if ($meal->position == null) {
+        if (is_null($meal->position)) {
             $meal->position = Meal::where('category_id', $meal->category_id)->max('position') + 1;
             return;
         }
@@ -41,7 +41,7 @@ class MealObserver
             return;
         }
 
-        if ($meal->position == null) {
+        if (is_null($meal->position)) {
             $meal->position = Meal::where('category_id', $meal->category_id)->max('position');
         }
 

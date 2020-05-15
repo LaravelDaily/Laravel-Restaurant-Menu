@@ -14,7 +14,7 @@ class CategoryObserver
      */
     public function creating(Category $category)
     {
-        if ($category->position == null) {
+        if (is_null($category->position)) {
             $category->position = Category::max('position') + 1;
             return;
         }
@@ -40,7 +40,7 @@ class CategoryObserver
             return;
         }
 
-        if ($category->position == null) {
+        if (is_null($category->position)) {
             $category->position = Category::max('position');
         }
 
