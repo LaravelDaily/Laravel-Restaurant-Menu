@@ -129,6 +129,12 @@
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
+    $('button[data-toggle^="sidebar-"]').click(function () {
+        setTimeout(function() {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust();
+        }, 275);
+    })
 })
 
 </script>
