@@ -148,11 +148,13 @@
     dom: 'lBfrtip<"actions">',
     buttons: [
       {
-        extend: 'selectAll',
         className: 'btn-primary',
         text: selectAllButtonTrans,
         exportOptions: {
           columns: ':visible'
+        },
+        action: function (e, table) {
+          table.rows({ search: 'applied', page: 'current' }).select()
         }
       },
       {
