@@ -33,3 +33,5 @@ Basically, feel free to use and re-use any way you want.
 - Check out our adminpanel generator [QuickAdminPanel](https://quickadminpanel.com)
 - Subscribe to our [YouTube channel Laravel Business](https://www.youtube.com/channel/UCTuplgOBi6tJIlesIboymGA)
 - Enroll in our [Laravel Online Courses](https://laraveldaily.teachable.com/)
+
+[![Run on Repl.it](https://repl.it/badge/github/LaravelDaily/Laravel-Restaurant-Menu)](https://repl.it/github/LaravelDaily/Laravel-Restaurant-Menu)
